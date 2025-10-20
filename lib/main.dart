@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logindice/dice.dart';
+import 'package:logindice/my_page.dart';
 import 'package:logindice/on_bording.dart';
 
 void main() => runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       title: 'Dice game',
-      home: OnBoarding(),
+      home: MyPage(),
     );
   }
 }

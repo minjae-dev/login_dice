@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   fluttertoast: ^9.0.0
   introduction_screen: ^4.0.0
+  like_button: ^2.1.0
 
 dev_dependencies:
   flutter_test:
