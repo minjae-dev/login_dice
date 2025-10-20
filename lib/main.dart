@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logindice/dice.dart';
+import 'package:logindice/on_bording.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,9 +8,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/ ': (context) => OnBoarding(),
+        '/login': (context) => LogIn(),
+        '/dice': (context) => Dice(),
+      },
       debugShowCheckedModeBanner: false,
       title: 'Dice game',
-      home: LogIn(),
+      home: OnBoarding(),
     );
   }
 }
@@ -72,6 +79,7 @@ class _LogInState extends State<LogIn> {
                         child: Padding(
                           padding: const EdgeInsets.all(40.0),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               TextFormField(
                                 controller: emailController,
