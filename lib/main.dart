@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logindice/dice.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,6 +20,8 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,76 +34,143 @@ class _LogInState extends State<LogIn> {
           IconButton(icon: Icon(Icons.search), onPressed: () {})
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: Center(
-                child: Image(
-                  width: 200,
-                  height: 200,
-                  image: AssetImage(
-                    'image/chef.gif',
-                  ),
-                ),
-              ),
-            ),
-            Form(
-              child: Theme(
-                data: ThemeData(
-                  primaryColor: Colors.teal,
-                  inputDecorationTheme: InputDecorationTheme(
-                    labelStyle: TextStyle(
-                      color: Colors.teal,
-                      fontSize: 15.0,
+      body: Builder(
+        builder: (context) {
+          return GestureDetector(
+            onTap: () {
+              // focusNode 포커스 받는 특정 위젯 식별
+              // FocusScope 어떤 위젯들까지 포커스 받는지 범위 나타냄
+              FocusScope.of(context).unfocus();
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: Center(
+                      child: Image(
+                        width: 200,
+                        height: 200,
+                        image: AssetImage(
+                          'image/chef.gif',
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Enter email',
+                  Form(
+                    child: Theme(
+                      data: ThemeData(
+                        primaryColor: Colors.teal,
+                        inputDecorationTheme: InputDecorationTheme(
+                          labelStyle: TextStyle(
+                            color: Colors.teal,
+                            fontSize: 15.0,
                           ),
-                          keyboardType: TextInputType.emailAddress,
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Enter password',
+                      ),
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(40.0),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: emailController,
+                                decoration: InputDecoration(
+                                  labelText: 'Enter email',
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              TextFormField(
+                                controller: passwordController,
+                                decoration: InputDecoration(
+                                  labelText: 'Enter password',
+                                ),
+                                keyboardType: TextInputType.text,
+                                obscureText: true,
+                              ),
+                              SizedBox(
+                                height: 40.0,
+                              ),
+                              SizedBox(
+                                width: 100.0,
+                                height: 50.0,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.orangeAccent,
+                                  ),
+                                  onPressed: () {
+                                    if (emailController.text == 'dice' &&
+                                        passwordController.text == '1234') {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Dice(),
+                                        ),
+                                      );
+                                    } else if (emailController.text == 'dice' ||
+                                        passwordController.text != '1234') {
+                                      showSnackBar2(context);
+                                    } else if (emailController.text != 'dice' ||
+                                        passwordController.text == '1234') {
+                                      showSnackBar(context);
+                                    } else {
+                                      showSnackBar0(context);
+                                    }
+                                  },
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
                         ),
-                        SizedBox(
-                          height: 40.0,
-                        ),
-                        SizedBox(
-                          width: 100.0,
-                          height: 50.0,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orangeAccent,
-                            ),
-                            onPressed: () {},
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                   ),
-                ), // Replace null with a valid widget
+                ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
+}
+
+void showSnackBar0(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Text(
+      '로그인 정보 확인',
+      textAlign: TextAlign.center,
+    ),
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.redAccent,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+void showSnackBar(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Text(
+      'dice 철자확인',
+      textAlign: TextAlign.center,
+    ),
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.redAccent,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+void showSnackBar2(BuildContext context) {
+  final snackBar = SnackBar(
+    content: Text(
+      '비밀번호 일치 안함',
+      textAlign: TextAlign.center,
+    ),
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.redAccent,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
